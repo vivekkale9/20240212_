@@ -1,102 +1,104 @@
 /* My Class-based implementation of an infinite precision Integer. */
 
 class InfiniteNumber {
+  /** An internal member Array to contain the digits of the Infinite Integer.
+   * @private
+   * @type {Array<Number>}
+   */
+  _internalArray = [];
 
-    /** An internal member Array to contain the digits of the Infinite Integer.
-     * @private
-     * @type {Array<Number>}
-     */
-    _internalArray = []
+  // The array to store the result
+  operationsResult = [];
 
-    // The array to store the result
-    operationsResult = []
-  
-    constructor(inputObject) {
-  
-      if (typeof inputObject === "number") {
-        console.log("You sent a number")
-  
-        // TODO validate the number and only then initialize the _internalArray
-        if(!Number.isInteger(inputObject) || inputObject<=0){
-            throw new Error("enter a valid number")
-        }
-  
-        // check for integral values only
-        if ((inputObject % 1) != 0) {
-          throw new Error("Input needs to be an integral value.")
-        }
+  constructor(inputObject) {
+    if (typeof inputObject === "number") {
+      console.log("You sent a number");
 
-        while (inputObject != 0) {
-          this._internalArray.unshift(inputObject % 10)
-          inputObject = Math.floor(inputObject / 10)
-        }
-      } else if (typeof inputObject === "string") {
-        console.log("You sent a String")
-  
-        // TODO validate the String and only then initialize the _internalArray
-        for (let char of inputObject) {
-            let digit = Number(char);
-            
-            // if the number is valid then push it to the array
-            if (!Number.isNaN(digit) && digit > 0) {
-                this._internalArray.push(digit);
-            } else {
-                console.log(`Invalid digit: ${char}`);
-            }
-        }
-  
-    } else if (Array.isArray(inputObject)) { 
-        console.log("You sent an Array")
-  
-        // TODO validate the individual elements of the inputArray and initialize
-        // the _internalArray
-        for(let i = 0;i<=inputObject.length-1;i++){
-            if(!Number.isInteger(inputObject[i]) ||
-             inputObject[i]<0 || inputObject[i]>9){
-              throw new Error("enter a integer")
-            }
-        }
+      // TODO validate the number and only then initialize the _internalArray
+      if (!Number.isInteger(inputObject) || inputObject <= 0) {
+        throw new Error("enter a valid number");
+      }
 
-        // to handle empty array
-        if(inputObject.length===0){
-            return inputObject
+      // check for integral values only
+      if (inputObject % 1 != 0) {
+        throw new Error("Input needs to be an integral value.");
+      }
+
+      while (inputObject != 0) {
+        this._internalArray.unshift(inputObject % 10);
+        inputObject = Math.floor(inputObject / 10);
+      }
+    } else if (typeof inputObject === "string") {
+      console.log("You sent a String");
+
+      // TODO validate the String and only then initialize the _internalArray
+      for (let char of inputObject) {
+        let digit = Number(char);
+
+        // if the number is valid then push it to the array
+        if (!Number.isNaN(digit) && digit > 0) {
+          this._internalArray.push(digit);
+        } else {
+          console.log(`Invalid digit: ${char}`);
         }
+      }
+    } else if (Array.isArray(inputObject)) {
+      
 
-        // to initialize the array
-        this._internalArray = inputObject
-        
-      } else if (typeof inputObject === "object") {
-        console.log("You sent an Object")
-  
-        // TO check if this object has getInternalArray() and make a deep copy
-        // and assign it to local _internalArray
-        getInternalArray(inputObject)
+      // TODO validate the individual elements of the inputArray and initialize
+      // the _internalArray
+      for (let i = 0; i <= inputObject.length - 1; i++) {
+        if (
+          !Number.isInteger(inputObject[i]) ||
+          inputObject[i] < 0 ||
+          inputObject[i] > 9
+        ) {
+          throw new Error("enter a integer");
+        }
+      }
 
-        // initialize the array
-        _internalArray = object_to_array
-  
-      } else {
-        console.log("You sent some bullshit!")
-  
-        throw new Error(`Constuctor of IniniteNumber does not support this data
-          `+` type ${typeof inputObject}`)
-      } 
-  
+      // to handle empty array
+      if (inputObject.length === 0) {
+        return inputObject;
+      }
+
+      // to initialize the array
+      this._internalArray = inputObject;
+    } else if (typeof inputObject === "object") {
+      console.log("You sent an Object");
+
+      // TO check if this object has getInternalArray() and make a deep copy
+      // and assign it to local _internalArray
+      getInternalArray(inputObject);
+
+      // initialize the array
+      _internalArray = object_to_array;
+    } else {
+      console.log("You sent some bullshit!");
+
+      throw new Error(
+        `Constuctor of IniniteNumber does not support this data
+          ` + ` type ${typeof inputObject}`
+      );
     }
+  }
 
   /** Helper method to return the _internalArray variable which contains the
    * Inifnite precision Integer.
    * @returns {Array<Number>} the internal array representing individual digits
    */
   getInternalArray(inputObject) {
-    let object_to_array = Object.values(inputObject)
-    for(let i=0;i<object_to_array.length;i++){
-        if(!Number.isInteger(this._internalArray[i]) || 
-        this._internalArray[i]<0 || this._internalArray[i]>9){
-            throw new Error("enter a integer")
-        }
+    let object_to_array = Object.values(inputObject);
+    for (let i = 0; i < object_to_array.length; i++) {
+      if (
+        !Number.isInteger(this._internalArray[i]) ||
+        this._internalArray[i] < 0 ||
+        this._internalArray[i] > 9
+      ) {
+        throw new Error("enter a integer");
+      }
     }
-    return object_to_array
+    return object_to_array;
   }
 
   /** Helper method to return the representation of this Infinite Precision
@@ -105,8 +107,8 @@ class InfiniteNumber {
    */
   getNumberAsString(arrayToString) {
     // TODO, concatenate the contents of _internalArray to a string and return
-    let result = arrayToString.join('')
-    return result
+    let result = arrayToString.join("");
+    return result;
   }
 
   /**This is a method to add the number array
@@ -114,11 +116,15 @@ class InfiniteNumber {
    * @returns {String} the result of addition
    * @throws {Error} if there is some error while adding
    */
-  add(inputArray){
+  add(inputArray) {
     //to handle the case where number should be integer
     //and in between the digits 0 and 9
     for (let i = 0; i <= inputArray.length - 1; i++) {
-      if (!Number.isInteger(inputArray[i]) || inputArray[i] < 0 || inputArray[i] > 9) {
+      if (
+        !Number.isInteger(inputArray[i]) ||
+        inputArray[i] < 0 ||
+        inputArray[i] > 9
+      ) {
         throw new Error("enter a integer");
       }
     }
@@ -160,7 +166,6 @@ class InfiniteNumber {
         this.operationsResult.unshift(carry);
       }
 
-
       return this.getNumberAsString(this.operationsResult);
     }
     // if the inputArray.length is greater than this._internalArray.length
@@ -187,11 +192,15 @@ class InfiniteNumber {
    * @returns {String} the result of subtraction
    * @throws {Error} if there is some error while subtracting
    */
-  subtract(inputArray){
+  subtract(inputArray) {
     //to handle the case where number should be integer
     //and in between the digits 0 and 9
     for (let i = 0; i <= inputArray.length - 1; i++) {
-      if (!Number.isInteger(inputArray[i]) || inputArray[i] < 0 || inputArray[i] > 9) {
+      if (
+        !Number.isInteger(inputArray[i]) ||
+        inputArray[i] < 0 ||
+        inputArray[i] > 9
+      ) {
         throw new Error("enter a integer");
       }
     }
@@ -262,7 +271,8 @@ class InfiniteNumber {
       while (trueLen1 >= 0) {
         // if we have borrowed something then subtract 1 from the this._internalArray[i]
         if (borrow === 1) {
-          this._internalArray[trueLen1] = this._internalArray[trueLen1] - borrow;
+          this._internalArray[trueLen1] =
+            this._internalArray[trueLen1] - borrow;
           borrow = 0;
         }
         // if the element in this._internalArray is less than the element in inputArray
@@ -288,12 +298,12 @@ class InfiniteNumber {
     }
   }
 
-  /**This is a method to subtract the number array
-   * @param {number[]} inputArray the second array that we want to subtract
-   * @returns {String} the result of subtraction
-   * @throws {Error} if there is some error while subtracting
+  /**This is a method to multiply the number array
+   * @param {number[]} inputArray the second array that we want to multiply
+   * @returns {String} the result of multiplication
+   * @throws {Error} if there is some error while multiplication
    */
-  multiply(inputArray){
+  multiply(inputArray) {
     //to handle the case where number should be integer
     for (let i = 0; i <= inputArray.length - 1; i++) {
       if (!Number.isInteger(inputArray[i])) {
@@ -327,7 +337,9 @@ class InfiniteNumber {
     }
 
     // Initialize the result array with zeros
-    this.operationsResult = Array(this._internalArray.length + inputArray.length).fill(0);
+    this.operationsResult = Array(
+      this._internalArray.length + inputArray.length
+    ).fill(0);
 
     // Iterate through the digits of this._internalArray
     for (let i = this._internalArray.length - 1; i >= 0; i--) {
@@ -351,9 +363,70 @@ class InfiniteNumber {
     }
     return this.operationsResult.join("");
   }
+
+  /**This is a method to divide the number array
+   * @param {number[]} inputArray the second array that we want to divide
+   * @returns {String} the result of division
+   * @throws {Error} if there is some error while division
+   */
+  divide(inputArray) {
+    //to handle the case where number should be integer
+    for (let i = 0; i <= inputArray.length - 1; i++) {
+      if (!Number.isInteger(inputArray[i])) {
+        throw new Error("enter a integer");
+      }
+    }
+    // to handle empty array
+    if (inputArray.length === 0) {
+      return this._internalArray;
+    }
+
+    // to handle is one of the array is 0
+    if (inputArray.length === 1 && inputArray[0] === 0) {
+      return "infinity";
+    }
+
+    // for checking which array is greater in terms of value
+    let divisorValue = parseInt(inputArray.join(""), 10);
+    let dividendValue = parseInt(this._internalArray.join(""), 10);
+
+    // to handle the case where the divisor > dividend
+    if(divisorValue>dividendValue){
+      throw new Error("divisor is greater than dividend")
+    }
+
+    let quotient = [];
+    let tempArray = [];
+    
+    //object of divisor
+    const divObject = new InfiniteNumber(inputArray)
+    let i =1
+    while (dividendValue>divisorValue) {
+        tempArray.push(i);
+
+        // Multiply tempArray with divisor using mulArray function
+        let mul = parseInt(divObject.multiply(tempArray));
+
+        // Check conditions
+        if (mul < dividendValue) {
+            tempArray.pop(); // Pop the last element and update tempArray
+        } else if (mul == dividendValue) {
+            quotient = tempArray; // Set quotient and break the loop
+            dividendValue -= mul
+            break;
+        } else {
+            // If mul > dividend, return the previous quotient
+            tempArray[0] -= 1
+            quotient = tempArray
+            break;
+        }
+        i++
+    }
+    return quotient.join('')
+  }
 }
 
-let array1 = [1,2]
-let array2 = [-5]
+let array1 = [8,5];
+let array2 = [9,0];
 const numberObj = new InfiniteNumber(array1);
-console.log(numberObj.multiply(array2));
+console.log(numberObj.divide(array2));
