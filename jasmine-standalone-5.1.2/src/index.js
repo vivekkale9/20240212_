@@ -117,6 +117,7 @@ class InfiniteNumber {
    * @throws {Error} if there is some error while adding
    */
   add(inputArray) {
+    
     //to handle the case where number should be integer
     //and in between the digits 0 and 9
     for (let i = 0; i <= inputArray.length - 1; i++) {
@@ -383,7 +384,7 @@ class InfiniteNumber {
 
     // to handle is one of the array is 0
     if (inputArray.length === 1 && inputArray[0] === 0) {
-      return "infinity";
+      throw new Error("infinity")
     }
 
     // for checking which array is greater in terms of value
@@ -426,7 +427,7 @@ class InfiniteNumber {
   }
 }
 
-let array1 = [8,5];
-let array2 = [9,0];
+let array1 = [4,5,6];
+let array2 = [1,2];
 const numberObj = new InfiniteNumber(array1);
-console.log(numberObj.divide(array2));
+console.log(numberObj.add(array2));

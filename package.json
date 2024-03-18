@@ -1,5 +1,5 @@
 {
-  "name": "operations",
+  "name": "infinite_precision",
   "version": "0.0.1",
   "description": "this is a class based program for the infinite precision operations",
   "main": "index.js",
